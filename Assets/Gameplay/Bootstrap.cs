@@ -1,4 +1,3 @@
-using Common.Disposables;
 using Common.PlayerInput;
 using Common.States;
 using Common.Tickables;
@@ -62,6 +61,8 @@ namespace Gameplay
             stateMachine.AddState(new RoundEndState(stateMachine));
 
             _sceneContext.Get<TickablesContainer>(GAMEPLAY_TICKABLES_TAG).Register(stateMachine);
+
+            _sceneDisposables.Register(stateMachine);
 
             return stateMachine;
         }

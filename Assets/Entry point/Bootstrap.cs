@@ -1,5 +1,6 @@
 using System.Collections;
 using Common;
+using Common.Disposables;
 using Common.LoadingScreen;
 using Common.Tickables;
 using DI;
@@ -15,10 +16,13 @@ namespace EntryPoint
 
         private static Bootstrap _instance;
         DIContainer _projectContext;
+        CompositeDisposable _projectDisposables;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void EntryPoint()
         {
+            Application.targetFrameRate = 60;
+
             _instance = new Bootstrap();
             _instance.Run();
         }
@@ -26,6 +30,9 @@ namespace EntryPoint
         private void Run()
         {
             _projectContext = new DIContainer();
+            _projectDisposables = new CompositeDisposable();
+
+            Application.quitting += OnApplicationQuit;
 
             _projectContext.Register(SetupCoroutines);
             _projectContext.Register(SetupTickables, PROJECT_TICKABLES_TAG);
@@ -34,6 +41,12 @@ namespace EntryPoint
             _projectContext.Register(SetupSceneManager);
 
             SetupScene();
+        }
+
+        private void OnApplicationQuit()
+        {
+            Application.quitting -= OnApplicationQuit;
+            _projectDisposables?.Dispose();
         }
 
         private Coroutines SetupCoroutines()
@@ -99,7 +112,7 @@ namespace EntryPoint
                 return;
             }
 
-            sceneBootstrap.Setup(_projectContext);
+            sceneBootstrap.Setup(_projectContext, _projectDisposables);
         }
     }
 }

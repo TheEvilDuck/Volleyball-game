@@ -14,5 +14,10 @@ namespace Gameplay.States
         {
             Debug.Log("AAA");
         }
+
+        public override void Exit()
+        {
+            Debug.Log("BBB");
+        }
     }
 }

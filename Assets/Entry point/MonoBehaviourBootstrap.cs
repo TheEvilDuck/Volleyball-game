@@ -9,12 +9,15 @@ namespace EntryPoint
     {
         protected DIContainer _sceneContext;
         protected CompositeDisposable _sceneDisposables;
+        private CompositeDisposable _projectDisposables;
 
-        public void Setup(IDIContainer projectContext)
+        public void Setup(IDIContainer projectContext, CompositeDisposable projectDisposables)
         {
             _sceneContext = new DIContainer(projectContext);
+            _projectDisposables = projectDisposables;
             _sceneContext.Get<ISceneManager>().beforeSceneChanged += Clean;
             _sceneDisposables = new CompositeDisposable();
+            _projectDisposables.Register(_sceneDisposables);
 
             SetupInternal();
         }
@@ -25,6 +28,7 @@ namespace EntryPoint
 
             CleanInternal();
 
+            _projectDisposables.Remove(_sceneDisposables);
             _sceneDisposables?.Dispose();
         }
 
