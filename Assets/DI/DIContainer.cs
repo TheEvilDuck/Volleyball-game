@@ -7,10 +7,10 @@ namespace DI
     public class DIContainer: IDIContainer
     {
         private readonly Dictionary<(Type type, string tag), DIObjectData> _entries;
-        private readonly DIContainer _parentContainer;
+        private readonly IDIContainer _parentContainer;
         private readonly HashSet<(Type type, string tag)> _cyclicCash;
 
-        public DIContainer(DIContainer parentContainer = null)
+        public DIContainer(IDIContainer parentContainer = null)
         {
             _parentContainer = parentContainer;
             _cyclicCash = new HashSet<(Type type, string tag)>();
