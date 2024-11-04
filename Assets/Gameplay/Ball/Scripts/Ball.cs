@@ -1,19 +1,35 @@
+using Gameplay.StartPositions;
 using UnityEngine;
 
-namespace Gameplay
+namespace Gameplay.Balls
 {
     public class Ball: MonoBehaviour, IBall
     {
         [SerializeField] Rigidbody2D _rigidBody;
+        [SerializeField] private Collider2D _collider;
 
         public void AddImpulse(Vector2 impulse)
         {
             _rigidBody.AddForce(impulse, ForceMode2D.Impulse);
         }
 
-        public void ResetBall()
+        public void Freeze()
         {
-            _rigidBody.velocity = Vector2.zero;
+            _rigidBody.velocity = Vector3.zero;
+            _rigidBody.isKinematic = true;
+            _collider.enabled = false;
+        }
+
+        public void Release()
+        {
+            _rigidBody.isKinematic = false;
+            _collider.enabled = true;
+        }
+
+        public void SetPosition(IStartPosition position)
+        {
+            transform.position = position.Position;
+            transform.rotation = position.Rotation;
         }
     }
 }

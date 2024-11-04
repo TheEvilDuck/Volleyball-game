@@ -166,3 +166,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidBody: {fileID: 4520822852947114725}
+  _collider: {fileID: 4670382926936441904}
