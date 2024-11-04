@@ -100,7 +100,7 @@ namespace EntryPoint
             ISceneManager sceneManager = new SimpleSceneManager();
             return sceneManager;
         }
-
+        
         private async void SetupScene()
         {
             MonoBehaviourBootstrap sceneBootstrap = GameObject.FindAnyObjectByType<MonoBehaviourBootstrap>();
