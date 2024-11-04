@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Common.PlayerInput
 {
-    public class IPlayerInput
+    public interface IPlayerInput
     {
         public event Action<Vector2> horizontalInput;
         public event Action jumpPressed;
