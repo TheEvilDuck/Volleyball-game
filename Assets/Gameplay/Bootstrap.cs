@@ -1,9 +1,11 @@
 using Common.Disposables;
 using Common.PlayerInput;
+using Common.States;
 using Common.Tickables;
 using EntryPoint;
+using Gameplay.BallDetection;
 using Gameplay.Mediators;
-using Unity.VisualScripting;
+using Gameplay.States;
 using UnityEngine;
 
 namespace Gameplay
@@ -13,11 +15,13 @@ namespace Gameplay
         public const string GAMEPLAY_TICKABLES_TAG = nameof(GAMEPLAY_TICKABLES_TAG);
 
         [SerializeField] private Transform _ballSpawnPoint;
+        [SerializeField] private BallCollider _floor;
         protected override void SetupInternal()
         {
             _sceneContext.Register(SetupSceneTickables, GAMEPLAY_TICKABLES_TAG);
             _sceneContext.Register(SetupInput);
             _sceneContext.Register(SetupBall);
+            _sceneContext.Register(SetupGameplayStateMachine).NonLazy();
 
             SetupMediators();
         }
@@ -49,6 +53,17 @@ namespace Gameplay
             tickables.Register(playerInput);
 
             return playerInput;
+        }
+
+        private StateMachine SetupGameplayStateMachine()
+        {
+            StateMachine stateMachine = new StateMachine();
+            stateMachine.AddState(new MainGameState(stateMachine, _floor));
+            stateMachine.AddState(new RoundEndState(stateMachine));
+
+            _sceneContext.Get<TickablesContainer>(GAMEPLAY_TICKABLES_TAG).Register(stateMachine);
+
+            return stateMachine;
         }
 
         private void SetupMediators()

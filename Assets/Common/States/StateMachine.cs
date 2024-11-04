@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Common.States
 {
-    public class StateMachine : ITickable, IDisposable
+    public class StateMachine : IStateMachine, ITickable, IDisposable
     {
         private readonly Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
         private IState _currentState;
