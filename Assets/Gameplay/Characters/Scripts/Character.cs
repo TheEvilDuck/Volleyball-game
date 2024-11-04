@@ -1,3 +1,4 @@
+using Gameplay.StartPositions;
 using UnityEngine;
 
 namespace Gameplay.Characters
@@ -5,9 +6,18 @@ namespace Gameplay.Characters
     public class Character : MonoBehaviour, IMovable
     {
         [SerializeField] private Rigidbody2D _rigidBody;
-        [SerializeField, Min(0)] private float _acceleration = 1f;
-        [SerializeField, Min(0)] private float _walkSpeed = 5f;
+        [SerializeField] private StartPosition _ballPivot;
         private float _moveDirection;
+        private float _acceleration;
+        private float _walkSpeed;
+
+        public IStartPosition BallPivot => _ballPivot;
+
+        public void Init(float acceleration, float walkSpeed)
+        {
+            _acceleration = acceleration;
+            _walkSpeed = walkSpeed;
+        }
 
         public void Move(float direction) => _moveDirection = direction;
 
