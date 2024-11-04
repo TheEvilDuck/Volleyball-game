@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Common.Tickables;
+using DI;
 using UnityEngine;
 
 namespace Common.States
@@ -9,6 +10,8 @@ namespace Common.States
     {
         private readonly Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
         private IState _currentState;
+
+        public DIContainer StateMachineContext {get; private set;} = new DIContainer();
 
         public void ChangeState<TState>()
         {
@@ -36,12 +39,6 @@ namespace Common.States
             }
 
             _states.Add(stateType, state);
-
-            if (_currentState == null)
-            {
-                _currentState = state;
-                _currentState?.Enter();
-            }
         }
         public void Tick(float deltaTime) => _currentState?.Update(deltaTime);
 
