@@ -3,7 +3,7 @@ using Common.States;
 using Common.Tickables;
 using EntryPoint;
 using Gameplay.BallDetection;
-using Gameplay.Mediators;
+using Gameplay.Characters;
 using Gameplay.States;
 using UnityEngine;
 
@@ -69,9 +69,7 @@ namespace Gameplay
 
         private void SetupMediators()
         {
-            TestInputMediator testInputMediator = new TestInputMediator(_sceneContext);
 
-            _sceneDisposables.Register(testInputMediator);
         }
     }
 }
