@@ -63,9 +63,10 @@ namespace Gameplay
         private StateMachine SetupGameplayStateMachine()
         {
             StateMachine stateMachine = new StateMachine();
+            IPlayerInput playerInput = _sceneContext.Get<IPlayerInput>();
             stateMachine.AddState(new SetupState(stateMachine, _sceneContext.Get<ICharacterFactory>(), _playerStartPosition));
-            stateMachine.AddState(new ServeState(stateMachine, _sceneContext.Get<IBallFactory>()));
-            stateMachine.AddState(new MainGameState(stateMachine, _floor, _sceneContext.Get<IPlayerInput>()));
+            stateMachine.AddState(new ServeState(stateMachine, _sceneContext.Get<IBallFactory>(), playerInput));
+            stateMachine.AddState(new MainGameState(stateMachine, _floor, playerInput));
             stateMachine.AddState(new RoundEndState(stateMachine));
 
             _sceneContext.Get<TickablesContainer>(GAMEPLAY_TICKABLES_TAG).Register(stateMachine);

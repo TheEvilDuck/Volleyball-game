@@ -12,12 +12,12 @@ namespace Gameplay.States
 
         public override void Enter()
         {
-            Debug.Log("AAA");
+            _stateMachine.ChangeState<ServeState>();
         }
 
         public override void Exit()
         {
-            Debug.Log("BBB");
+            
         }
     }
 }

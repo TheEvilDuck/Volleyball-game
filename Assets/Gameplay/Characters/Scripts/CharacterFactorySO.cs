@@ -7,13 +7,12 @@ namespace Gameplay.Characters
     public class CharacterFactorySO : ScriptableObject, ICharacterFactory
     {
         [SerializeField] private Character _characterPrefab;
-        [SerializeField, Min(0)] private float _acceleration = 1f;
-        [SerializeField, Min(0)] private float _walkSpeed = 5f;
+        [SerializeField] private CharacterConfig _characterConfig;
 
         public Character Get(IStartPosition startPosition)
         {
             Character instance = Instantiate(_characterPrefab, startPosition.Position, startPosition.Rotation);
-            instance.Init(_acceleration, _walkSpeed);
+            instance.Init(_characterConfig);
             return instance;
         }
     }

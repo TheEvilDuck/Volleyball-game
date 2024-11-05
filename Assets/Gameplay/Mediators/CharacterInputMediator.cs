@@ -1,6 +1,7 @@
 using System;
 using Common.PlayerInput;
 using Gameplay.Characters;
+using UnityEngine;
 
 namespace Gameplay.Mediators
 {
