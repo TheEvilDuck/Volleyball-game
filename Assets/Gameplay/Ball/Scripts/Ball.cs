@@ -1,4 +1,4 @@
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 using UnityEngine;
 
 namespace Gameplay.Balls
@@ -26,7 +26,7 @@ namespace Gameplay.Balls
             _collider.enabled = true;
         }
 
-        public void SetPosition(IStartPosition position)
+        public void SetPosition(IPositionProvider position)
         {
             transform.position = position.Position;
             transform.rotation = position.Rotation;

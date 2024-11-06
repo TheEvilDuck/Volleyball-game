@@ -11,6 +11,7 @@ namespace Gameplay.States
         private readonly IBallDetector _floor;
         private readonly IPlayerInput _playerInput;
         private CharacterInputMediator _characterInputMediator;
+        private MainGameArmsInputMediator _mainGameArmsInputMediator;
 
         public MainGameState(IStateMachine stateMachine, IBallDetector floor, IPlayerInput playerInput): base(stateMachine)
         {
@@ -22,12 +23,14 @@ namespace Gameplay.States
             Character character = _stateMachine.StateMachineContext.Get<Character>();
             _floor.detectionStarted += OnBallHitTheFloor;
             _characterInputMediator = new CharacterInputMediator(_playerInput, character);
+            _mainGameArmsInputMediator = new MainGameArmsInputMediator(_playerInput, character);
         }
 
         public override void Exit()
         {
             _floor.detectionStarted -= OnBallHitTheFloor;
             _characterInputMediator?.Dispose();
+            _mainGameArmsInputMediator?.Dispose();
         }
 
         private void OnBallHitTheFloor()

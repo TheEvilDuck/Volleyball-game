@@ -1,9 +1,9 @@
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 
 namespace Gameplay.Balls
 {
     public interface IBallFactory
     {
-        public IBall Get(IStartPosition startPosition);
+        public IBall Get(IPositionProvider startPosition);
     }
 }

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Gameplay.StartPositions
+namespace Gameplay.PositionProviding
 {
-    public class StartPosition : MonoBehaviour, IStartPosition
+    public class TransformPositionProvider : MonoBehaviour, IPositionProvider
     {
         public Vector2 Position => transform.position;
 

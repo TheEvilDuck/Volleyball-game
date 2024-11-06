@@ -1,7 +1,6 @@
 using System;
 using Common.PlayerInput;
 using Gameplay.Characters;
-using UnityEngine;
 
 namespace Gameplay.Mediators
 {
@@ -20,6 +19,7 @@ namespace Gameplay.Mediators
 
         public void Dispose()
         {
+            _movable.Stop();
             _playerInput.horizontalInput -= OnHorizontalInput;
         }
 

@@ -1,4 +1,4 @@
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 using UnityEngine;
 
 namespace Gameplay.Balls
@@ -8,7 +8,7 @@ namespace Gameplay.Balls
     {
         [SerializeField] private Ball _ballPrefab;
 
-        public IBall Get(IStartPosition startPosition)
+        public IBall Get(IPositionProvider startPosition)
         {
             Ball instance = Instantiate(_ballPrefab, startPosition.Position, startPosition.Rotation);
             return instance;

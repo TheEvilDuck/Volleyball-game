@@ -1,4 +1,4 @@
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 using UnityEngine;
 
 namespace Gameplay.Characters
@@ -9,7 +9,7 @@ namespace Gameplay.Characters
         [SerializeField] private Character _characterPrefab;
         [SerializeField] private CharacterConfig _characterConfig;
 
-        public Character Get(IStartPosition startPosition)
+        public Character Get(IPositionProvider startPosition)
         {
             Character instance = Instantiate(_characterPrefab, startPosition.Position, startPosition.Rotation);
             instance.Init(_characterConfig);

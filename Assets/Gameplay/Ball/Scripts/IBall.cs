@@ -1,13 +1,12 @@
 
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 using UnityEngine;
 
 namespace Gameplay.Balls
 {
-    public interface IBall
+    public interface IBall: ISetablePosition
     {
         public void AddImpulse(Vector2 impulse);
-        public void SetPosition(IStartPosition position);
         public void Freeze();
         public void Release();
     }

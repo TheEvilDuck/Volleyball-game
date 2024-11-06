@@ -1,15 +1,15 @@
 using Common.States;
 using Gameplay.Characters;
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 
 namespace Gameplay.States
 {
     public class SetupState : State
     {
         private readonly ICharacterFactory _characterFactory;
-        private readonly IStartPosition _characterStartPosition;
+        private readonly IPositionProvider _characterStartPosition;
 
-        public SetupState(IStateMachine stateMachine, ICharacterFactory characterFactory, IStartPosition characterStartPosition) : base(stateMachine)
+        public SetupState(IStateMachine stateMachine, ICharacterFactory characterFactory, IPositionProvider characterStartPosition) : base(stateMachine)
         {
             _characterFactory = characterFactory;
             _characterStartPosition = characterStartPosition;

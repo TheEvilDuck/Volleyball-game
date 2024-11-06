@@ -16,4 +16,6 @@ MonoBehaviour:
   <WalkSpeed>k__BackingField: 4
   <MinJumpHeight>k__BackingField: 3
   <MaxJumpHeight>k__BackingField: 10
-  <ArmsSpeed>k__BackingField: 2
+  <ArmsSpeed>k__BackingField: 10
+  <BendingSpeed>k__BackingField: 1200
+  <MaxBendAngle>k__BackingField: 55

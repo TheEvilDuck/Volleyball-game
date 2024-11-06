@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Gameplay.StartPositions
+namespace Gameplay.PositionProviding
 {
-    public interface IStartPosition
+    public interface IPositionProvider
     {
         public Vector2 Position {get;}
         public Quaternion Rotation {get;}

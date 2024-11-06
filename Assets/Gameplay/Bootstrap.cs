@@ -5,7 +5,7 @@ using EntryPoint;
 using Gameplay.BallDetection;
 using Gameplay.Balls;
 using Gameplay.Characters;
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 using Gameplay.States;
 using UnityEngine;
 
@@ -17,8 +17,8 @@ namespace Gameplay
 
         [SerializeField] private Transform _ballSpawnPoint;
         [SerializeField] private BallCollider _floor;
-        [SerializeField] private StartPosition _playerStartPosition;
-        [SerializeField] private StartPosition _ballStartPosition;
+        [SerializeField] private TransformPositionProvider _playerStartPosition;
+        [SerializeField] private TransformPositionProvider _ballStartPosition;
         protected override void SetupInternal()
         {
             _sceneContext.Register(SetupSceneTickables, GAMEPLAY_TICKABLES_TAG);
@@ -65,7 +65,7 @@ namespace Gameplay
             StateMachine stateMachine = new StateMachine();
             IPlayerInput playerInput = _sceneContext.Get<IPlayerInput>();
             stateMachine.AddState(new SetupState(stateMachine, _sceneContext.Get<ICharacterFactory>(), _playerStartPosition));
-            stateMachine.AddState(new ServeState(stateMachine, _sceneContext.Get<IBallFactory>(), playerInput));
+            stateMachine.AddState(new ServeState(stateMachine, _sceneContext.Get<IBallFactory>(), playerInput, _playerStartPosition));
             stateMachine.AddState(new MainGameState(stateMachine, _floor, playerInput));
             stateMachine.AddState(new RoundEndState(stateMachine));
 

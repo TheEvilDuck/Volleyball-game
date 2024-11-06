@@ -10,6 +10,10 @@ namespace Common.PlayerInput
         public event Action jumpPressed;
         public event Action<Vector2> mouseClicked;
         public event Action<Vector2> mouseMove;
+        public event Action<Vector2> mousePressHold;
+        public event Action<Vector2> mouseRightPressHold;
+        public event Action<Vector2> mouseButtonUp;
+        public event Action<Vector2> mouseRightButtonUp;
 
         public void Tick(float deltaTime)
         {
@@ -23,6 +27,18 @@ namespace Common.PlayerInput
 
             if (Input.GetMouseButtonDown(0))
                 mouseClicked?.Invoke(Input.mousePosition);
+
+            if (Input.GetMouseButton(0))
+                mousePressHold?.Invoke(Input.mousePosition);
+
+            if (Input.GetMouseButton(1))
+                mouseRightPressHold?.Invoke(Input.mousePosition);
+
+            if (Input.GetMouseButtonUp(0))
+                mouseButtonUp?.Invoke(Input.mousePosition);
+
+            if (Input.GetMouseButtonUp(1))
+                mouseRightButtonUp?.Invoke(Input.mousePosition);
         }
 
         private void HandleKeyBoard()

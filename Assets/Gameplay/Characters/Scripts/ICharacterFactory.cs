@@ -1,9 +1,9 @@
-using Gameplay.StartPositions;
+using Gameplay.PositionProviding;
 
 namespace Gameplay.Characters
 {
     public interface ICharacterFactory
     {
-        public Character Get(IStartPosition startPosition);
+        public Character Get(IPositionProvider startPosition);
     }
 }
