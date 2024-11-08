@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7e48a614b1ced42831c28e1c9acaa7, type: 3}
   m_Name: Character stats
   m_EditorClassIdentifier: 
-  <Acceleration>k__BackingField: 5
-  <WalkSpeed>k__BackingField: 4
+  <Acceleration>k__BackingField: 7
+  <WalkSpeed>k__BackingField: 9
   <MinJumpHeight>k__BackingField: 3
   <MaxJumpHeight>k__BackingField: 10
   <ArmsSpeed>k__BackingField: 10
-  <BendingSpeed>k__BackingField: 1200
-  <MaxBendAngle>k__BackingField: 55
+  <BendingSpeed>k__BackingField: 1100
+  <ArmsMinAngle>k__BackingField: 15.22
+  <ArmsMinAngleDamping>k__BackingField: 0.1
+  <MaxBendAngle>k__BackingField: 140
