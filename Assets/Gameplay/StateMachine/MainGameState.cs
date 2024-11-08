@@ -20,7 +20,7 @@ namespace Gameplay.States
         }
         public override void Enter()
         {
-            Character character = _stateMachine.StateMachineContext.Get<Character>();
+            Character character = _stateMachine.StateMachineContext.Get<ICharacterProvider>().Character;
             _floor.detectionStarted += OnBallHitTheFloor;
             _characterInputMediator = new CharacterInputMediator(_playerInput, character);
             _mainGameArmsInputMediator = new MainGameArmsInputMediator(_playerInput, character);

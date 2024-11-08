@@ -24,7 +24,8 @@ namespace Gameplay.States
 
         public override void Enter()
         {
-            Character character = _stateMachine.StateMachineContext.Get<Character>();
+            _stateMachine.StateMachineContext.Get<CharacterProvider>().ResetInnerState();
+            Character character = _stateMachine.StateMachineContext.Get<ICharacterProvider>().Character;
             
             if (!_stateMachine.StateMachineContext.ContainsRegistration<IBall>())
                 _stateMachine.StateMachineContext.Register<IBall>(() => _ballFactory.Get(character.BallPivot));
@@ -47,14 +48,12 @@ namespace Gameplay.States
         public override void Exit()
         {
             _armsInputMediator?.Dispose();
+            _stateMachine.StateMachineContext.Get<IBall>().Release();
         }
 
         private void OnMouseClicked(Vector2 position)
         {
-            Character character = _stateMachine.StateMachineContext.Get<Character>();
             _playerInput.mouseClicked -= OnMouseClicked;
-            _stateMachine.StateMachineContext.Get<IBall>().Release();
-            _stateMachine.StateMachineContext.Get<IBall>().AddImpulse(Vector2.up * character.CurrentAngularSpeed);
             _stateMachine.ChangeState<MainGameState>();
         }
     }

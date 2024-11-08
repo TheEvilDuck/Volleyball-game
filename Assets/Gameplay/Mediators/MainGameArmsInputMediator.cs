@@ -34,12 +34,12 @@ namespace Gameplay.Mediators
 
         private void OnMouseButtonHold(Vector2 mousePosition)
         {
-            _armsMover.StartBending(1);
+            _armsMover.StartBending(-1);
         }
 
         private void OnRightMouseButtonHold(Vector2 mousePosition)
         {
-            _armsMover.StartBending(-1);
+            _armsMover.StartBending(1);
         }
 
         private void OnMouseMove(Vector2 mousePosition)

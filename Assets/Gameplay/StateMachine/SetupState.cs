@@ -17,8 +17,8 @@ namespace Gameplay.States
 
         public override void Enter()
         {
-            Character character = _characterFactory.Get(_characterStartPosition);
-            _stateMachine.StateMachineContext.Register(() => character);
+            _stateMachine.StateMachineContext.Register(() => new CharacterProvider(_characterFactory, _characterStartPosition));
+            _stateMachine.StateMachineContext.Register<ICharacterProvider>(() => _stateMachine.StateMachineContext.Get<CharacterProvider>());
 
             _stateMachine.ChangeState<ServeState>();
         }
