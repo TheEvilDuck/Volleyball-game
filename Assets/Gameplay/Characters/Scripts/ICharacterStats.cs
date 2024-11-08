@@ -7,6 +7,8 @@ namespace Gameplay.Characters
         public float MinJumpHeight {get;}
         public float MaxJumpHeight {get;}
         public float ArmsSpeed {get;}
+        public float ArmsMinAngle {get;}
+        public float ArmsMinAngleDamping {get;}
         public float MaxBendAngle {get;}
         public float BendingSpeed {get;}
     }

@@ -1,16 +1,17 @@
+using Common;
 using Gameplay.PositionProviding;
 using UnityEngine;
 
 namespace Gameplay.Characters
 {
-    public class Character : MonoBehaviour, IMovable, IArmsMover, ISetablePosition
+    public class Character : MonoBehaviour, IMovable, IArmsMover, ISetablePosition, IResatable
     {
         [SerializeField] private Rigidbody2D _rigidBody;
-        [SerializeField] private Rigidbody2D _upperArmRigidBody;
-        [SerializeField] private Rigidbody2D _lowerArmRigidBody;
         [SerializeField] private TransformPositionProvider _ballPivot;
         [SerializeField] private Transform _armPivot;
         [SerializeField] private Transform _elbowPivot;
+        [SerializeField] private HingeJoint2D _upperArmJoint;
+        [SerializeField] private HingeJoint2D _elbowJoint;
         private ICharacterStats _stats;
         private float _moveDirection;
         private Vector2 _currentArmsTarget;
@@ -23,6 +24,10 @@ namespace Gameplay.Characters
         public void Init(ICharacterStats stats)
         {
             _stats = stats;
+            JointAngleLimits2D jointAngleLimits2D = new JointAngleLimits2D();
+            jointAngleLimits2D.min = 0;
+            jointAngleLimits2D.max = _stats.MaxBendAngle;
+            _elbowJoint.limits = jointAngleLimits2D;
         }
 
         public void Move(float direction) => _moveDirection = direction;
@@ -33,6 +38,31 @@ namespace Gameplay.Characters
         public void StartBending(float direction) => _bending = direction;
 
         public void StopBending() => _bending = 0;
+
+        public void SetPosition(IPositionProvider positionProvider)
+        {
+            transform.position = positionProvider.Position;
+            transform.rotation = positionProvider.Rotation;
+        
+            ResetInnerState();
+        }
+
+        public void ResetInnerState()
+        {
+            _rigidBody.velocity = Vector2.zero;
+            _rigidBody.angularVelocity = 0;
+
+            JointMotor2D motor = _upperArmJoint.motor;
+            motor.motorSpeed = 0;
+            _upperArmJoint.motor = motor;
+
+            motor = _elbowJoint.motor;
+            motor.motorSpeed = 0;
+            _elbowJoint.motor = motor;
+
+            _upperArmJoint.connectedBody.velocity = Vector2.zero;
+            _elbowJoint.connectedBody.velocity = Vector2.zero;
+        }
 
         private void FixedUpdate() 
         {
@@ -45,24 +75,29 @@ namespace Gameplay.Characters
 
         private void BendArm()
         {
-            
+            float angle = _bending * _stats.BendingSpeed;
+            JointMotor2D motor = _elbowJoint.motor;
+            motor.motorSpeed = angle;
+            _elbowJoint.motor = motor;
         }
 
         private void RotateArm()
         {
-            Vector2 position = new Vector2(_armPivot.position.x, _armPivot.position.y);
+            Vector2 position = new Vector2(_upperArmJoint.transform.position.x, _upperArmJoint.transform.position.y);
             Vector2 direction = (position - _currentArmsTarget).normalized;
-            float angle = Vector2.SignedAngle(_armPivot.up, direction);
-            float signSpeed = angle * Time.deltaTime * _stats.ArmsSpeed;
-            CurrentAngularSpeed = Mathf.Abs(signSpeed);
-            _upperArmRigidBody.MoveRotation(signSpeed);
+            float angle = Vector2.SignedAngle(_upperArmJoint.transform.up, direction);
+            float signSpeed = angle * _stats.ArmsSpeed;
+            CurrentAngularSpeed = -signSpeed;
+
+            JointMotor2D motor = _upperArmJoint.motor;
+
+            if (Mathf.Abs(angle) <= _stats.ArmsMinAngle)
+                CurrentAngularSpeed = -_upperArmJoint.jointSpeed;
+
+            motor.motorSpeed = CurrentAngularSpeed;
+            _upperArmJoint.motor = motor;
         }
 
-        public void SetPosition(IPositionProvider positionProvider)
-        {
-            transform.position = positionProvider.Position;
-            transform.rotation = positionProvider.Rotation;
-            _rigidBody.velocity = Vector2.zero;
-        }
+        
     }
 }

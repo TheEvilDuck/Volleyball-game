@@ -11,7 +11,9 @@ namespace Gameplay.Characters
         [field: SerializeField, Min(0)] public float MaxJumpHeight {get; private set;}
         [field: SerializeField, Min(0)] public float ArmsSpeed {get; private set;}
         [field: SerializeField, Min(0)] public float BendingSpeed {get; private set;}
-        [field: SerializeField, Range(0, 90f)] public float MaxBendAngle {get; private set;}
+        [field: SerializeField, Min(0)] public float ArmsMinAngle {get; private set;}
+        [field: SerializeField, Range(0, 1)] public float ArmsMinAngleDamping {get; private set;}
+        [field: SerializeField, Range(0, 180f)] public float MaxBendAngle {get; private set;}
 
         private void OnValidate() 
         {
