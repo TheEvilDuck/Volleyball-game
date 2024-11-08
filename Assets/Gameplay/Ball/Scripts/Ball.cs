@@ -8,9 +8,16 @@ namespace Gameplay.Balls
         [SerializeField] Rigidbody2D _rigidBody;
         [SerializeField] private Collider2D _collider;
 
+        private IBallStats _stats;
+
+        public void Init(IBallStats stats)
+        {
+            _stats = stats;
+        }
+
         public void AddImpulse(Vector2 impulse)
         {
-            _rigidBody.AddForce(impulse, ForceMode2D.Impulse);
+            _rigidBody.AddForceY(impulse.y * _stats.BallThrowSpeedMultiplier, ForceMode2D.Impulse);
         }
 
         public void Freeze()

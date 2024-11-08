@@ -7,10 +7,12 @@ namespace Gameplay.Balls
     public class BallFactorySO : ScriptableObject, IBallFactory
     {
         [SerializeField] private Ball _ballPrefab;
+        [SerializeField] private BallConfig _ballConfig;
 
         public IBall Get(IPositionProvider startPosition)
         {
             Ball instance = Instantiate(_ballPrefab, startPosition.Position, startPosition.Rotation);
+            instance.Init(_ballConfig);
             return instance;
         }
     }
