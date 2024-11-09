@@ -941,10 +941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b2cb663aa6cc7c49b678104701b73c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ballSpawnPoint: {fileID: 0}
   _playerStartPosition: {fileID: 1242950696}
-  _ballStartPosition: {fileID: 0}
-  _map: {fileID: 0}
+  _map: {fileID: 1836954750}
 --- !u!4 &1270554725
 Transform:
   m_ObjectHideFlags: 0
@@ -991,7 +989,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _floor: {fileID: 976671256}
   _outZones:
-  - {fileID: 1091613806}
   - {fileID: 1250606009}
   - {fileID: 437352600}
   - {fileID: 853475002}
