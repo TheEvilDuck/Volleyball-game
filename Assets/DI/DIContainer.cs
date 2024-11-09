@@ -30,6 +30,19 @@ namespace DI
             return new DIContainerBuilder<T>(this, tag);
         }
 
+        public DIContainerBuilder<T> Register<T>(T instance, string tag = "")
+        {
+            if (ContainsRegistration<T>(tag))
+            {
+                Debug.LogError($"{typeof(T)} with tag {tag} is already registered!");
+                return null;
+            }
+
+            (Type type, string tag) tuple = (typeof(T), tag);
+            _entries.Add(tuple, new DIObjectData<T>(instance));
+            return new DIContainerBuilder<T>(this, tag);
+        }
+
         public bool ContainsRegistration<T>(string tag = "")
         {
             (Type type, string tag) tuple = (typeof(T), tag);
