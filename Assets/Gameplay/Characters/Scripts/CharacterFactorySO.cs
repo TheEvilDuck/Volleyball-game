@@ -9,10 +9,13 @@ namespace Gameplay.Characters
         [SerializeField] private Character _characterPrefab;
         [SerializeField] private CharacterConfig _characterConfig;
 
-        public Character Get(IPositionProvider startPosition)
+        public Character Get(IPositionProvider startPosition, float scale = 1)
         {
             Character instance = Instantiate(_characterPrefab, startPosition.Position, startPosition.Rotation);
-            instance.Init(_characterConfig);
+            Vector3 originalScale = instance.transform.localScale;
+            originalScale.x = scale;
+            instance.transform.localScale = originalScale;
+            instance.Init(_characterConfig, scale);
             return instance;
         }
     }

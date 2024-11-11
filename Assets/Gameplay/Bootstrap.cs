@@ -54,8 +54,11 @@ namespace Gameplay
         {
             StateMachine stateMachine = new StateMachine();
             IPlayerInput playerInput = _sceneContext.Get<IPlayerInput>();
-            stateMachine.AddState(new SetupState(stateMachine, _sceneContext.Get<ICharacterFactory>(), _sceneContext.Get<IBallFactory>(), _map, playerInput));
-            stateMachine.AddState(new ServeState(stateMachine, _sceneContext.Get<IBallFactory>(), playerInput, _playerStartPosition));
+            ICharacterFactory characterFactory = _sceneContext.Get<ICharacterFactory>();
+            IBallFactory ballFactory = _sceneContext.Get<IBallFactory>();
+
+            stateMachine.AddState(new SetupState(stateMachine,characterFactory ,ballFactory, _map, playerInput));
+            stateMachine.AddState(new ServeState(stateMachine, playerInput));
             stateMachine.AddState(new MainGameState(stateMachine, _map));
             stateMachine.AddState(new RoundEndState(stateMachine));
 

@@ -16,17 +16,21 @@ namespace Gameplay.Characters
         private float _moveDirection;
         private Vector2 _currentArmsTarget;
         private float _bending = 0;
+        private float _scale;
 
         public IPositionProvider BallPivot => _ballPivot;
 
         public float CurrentAngularSpeed {get; private set;}
 
-        public void Init(ICharacterStats stats)
+        public void Init(ICharacterStats stats, float scale = 1)
         {
             _stats = stats;
+            _scale = scale;
             JointAngleLimits2D jointAngleLimits2D = new JointAngleLimits2D();
             jointAngleLimits2D.min = 0;
             jointAngleLimits2D.max = _stats.MaxBendAngle;
+            jointAngleLimits2D.max *= scale;
+            jointAngleLimits2D.min *= scale;
             _elbowJoint.limits = jointAngleLimits2D;
         }
 
@@ -75,7 +79,7 @@ namespace Gameplay.Characters
 
         private void BendArm()
         {
-            float angle = _bending * _stats.BendingSpeed;
+            float angle = _bending * _stats.BendingSpeed * _scale;
             JointMotor2D motor = _elbowJoint.motor;
             motor.motorSpeed = angle;
             _elbowJoint.motor = motor;

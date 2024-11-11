@@ -1,6 +1,7 @@
 using Common.PlayerInput;
 using Common.States;
 using Gameplay.Characters;
+using Gameplay.GameStates;
 using Gameplay.Maps;
 
 namespace Gameplay.States
@@ -17,6 +18,15 @@ namespace Gameplay.States
         {
             _mapState.floorHit += OnBallHitTheFloor;
             _mapState.ballOut += OnBallOut;
+
+            IGameState gameState = _stateMachine.StateMachineContext.Get<IGameState>();
+
+            foreach (ICharacterProvider characterProvider in gameState.AllCharacters)
+            {
+                characterProvider.Controller.SetCanBending(true);
+                characterProvider.Controller.SetCanMove(true);
+                characterProvider.Controller.SetCanRotateArm(true);
+            }
         }
 
         public override void Exit()

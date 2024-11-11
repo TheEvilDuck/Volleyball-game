@@ -10,15 +10,10 @@ namespace Gameplay.States
 {
     public class ServeState : State
     {
-        private readonly IBallFactory _ballFactory;
         private readonly IPlayerInput _playerInput;
-        private IPositionProvider _ballPivot;
-        private IPositionProvider _playerStaraPosition;
-        public ServeState(IStateMachine stateMachine, IBallFactory ballFactory, IPlayerInput playerInput, IPositionProvider playerStartPosition) : base(stateMachine)
+        public ServeState(IStateMachine stateMachine, IPlayerInput playerInput) : base(stateMachine)
         {
-            _ballFactory = ballFactory;
             _playerInput = playerInput;
-            _playerStaraPosition = playerStartPosition;
         }
 
         public override void Enter()
@@ -26,24 +21,30 @@ namespace Gameplay.States
             _playerInput.mouseClicked += OnMouseClicked;
 
             IGameState gameState = _stateMachine.StateMachineContext.Get<IGameState>();
+            gameState.ResetInnerState();
             gameState.SwitchTeams();
 
-            foreach (ICharacterProvider characterProvider in gameState.OtherTeam.Characters)
+            foreach (ICharacterProvider characterProvider in gameState.AllCharacters)
             {
-                characterProvider.Controller.SetCanBending(true);
-                characterProvider.Controller.SetCanMove(true);
-                characterProvider.Controller.SetCanRotateArm(true);
+                characterProvider.Controller.SetCanBending(false);
+                characterProvider.Controller.SetCanMove(false);
+                characterProvider.Controller.SetCanRotateArm(false);
             }
+
+            gameState.CurrentTeam.CurrentServer.Controller.SetCanRotateArm(true);
+
+            _stateMachine.StateMachineContext.Get<IBall>().Freeze();
         }
 
         public override void Update(float deltaTime)
         {
-            
+            IGameState gameState = _stateMachine.StateMachineContext.Get<IGameState>();
+            _stateMachine.StateMachineContext.Get<IBall>().SetPosition(gameState.CurrentTeam.CurrentServer.Character.BallPivot);
         }
 
         public override void Exit()
         {
-            
+            _stateMachine.StateMachineContext.Get<IBall>().Release();
         }
 
         private void OnMouseClicked(Vector2 position)

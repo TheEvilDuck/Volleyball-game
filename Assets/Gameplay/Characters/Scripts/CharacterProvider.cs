@@ -8,14 +8,16 @@ namespace Gameplay.Characters
     {
         private readonly ICharacterFactory _characterFactory;
         private readonly IPositionProvider _characterStartPosition;
+        private readonly float _scale;
         public Character Character {get; private set;}
 
         public ICharacterController Controller {get; private set;}
 
-        public CharacterProvider(ICharacterFactory characterFactory, IPositionProvider startPosition)
+        public CharacterProvider(ICharacterFactory characterFactory, IPositionProvider startPosition, float scale = 1f)
         {
             _characterFactory = characterFactory;
             _characterStartPosition = startPosition;
+            _scale = scale;
             SetupNewCharacter();
         }
 
@@ -30,7 +32,7 @@ namespace Gameplay.Characters
 
         private void SetupNewCharacter()
         {
-            Character = _characterFactory.Get(_characterStartPosition);
+            Character = _characterFactory.Get(_characterStartPosition, _scale);
 
             if (Controller != null)
                 Controller.Attach(Character, Character);
